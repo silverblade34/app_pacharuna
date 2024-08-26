@@ -108,7 +108,9 @@ class LoginPage extends GetView<LoginController> {
                           height: 20,
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            controller.validateUser();
+                          },
                           child: Container(
                             alignment: Alignment.center,
                             height: 55,
