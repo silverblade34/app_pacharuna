@@ -1,5 +1,7 @@
+import 'package:app_pacharuna/app/bindings/detailproduct_binding.dart';
 import 'package:app_pacharuna/app/bindings/homecustomer_binding.dart';
 import 'package:app_pacharuna/app/bindings/login_binding.dart';
+import 'package:app_pacharuna/app/ui/pages/detailproduct/detailproduct_page.dart';
 import 'package:app_pacharuna/app/ui/pages/homecustomer/homecustomer_page.dart';
 import 'package:app_pacharuna/app/ui/pages/login/login_page.dart';
 import 'package:get/get.dart';
@@ -16,6 +18,11 @@ abstract class AppPages {
       name: Routes.HOME_CUSTOMER,
       page: () => const HomecustomerPage(),
       binding: HomecustomerBinding()
+    ),
+       GetPage(
+      name: Routes.DETAIL_PRODUCT,
+      page: () => const DetailProductPage(),
+      binding: DetailProductBinding()
     ),
   ];
 }
