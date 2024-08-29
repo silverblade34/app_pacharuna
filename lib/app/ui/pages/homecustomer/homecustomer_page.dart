@@ -1,5 +1,7 @@
 import 'package:app_pacharuna/app/controllers/homecustomer_controller.dart';
+import 'package:app_pacharuna/app/data/dto/products_dto.dart';
 import 'package:app_pacharuna/app/ui/pages/homecustomer/widgets/card_product.dart';
+import 'package:app_pacharuna/app/ui/widgets/navigation_drawer.dart';
 import 'package:app_pacharuna/app/utils/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,8 +17,10 @@ class HomecustomerPage extends GetView<HomecustomerController> {
           'Productos',
           style: TextStyle(color: Colors.white),
         ),
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: GlobalColors.primary,
       ),
+      drawer: const NavigationDrawerLayout(),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(15),
@@ -64,18 +68,18 @@ class HomecustomerPage extends GetView<HomecustomerController> {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        crossAxisSpacing:
-                            10,
+                        crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
-                        childAspectRatio:
-                            0.7,
+                        childAspectRatio: 0.7,
                       ),
                       itemCount: controller.products.length,
                       itemBuilder: (BuildContext context, int index) {
-                        final product = controller.products[index];
-                        return CardProduct(product: product, onPressed: (){
-                          Get.toNamed("/detail_product");
-                        });
+                        DatumProduct product = controller.products[index];
+                        return CardProduct(
+                            datumProduct: product,
+                            onPressed: () {
+                              Get.toNamed("/detail_product");
+                            });
                       },
                     );
                   },

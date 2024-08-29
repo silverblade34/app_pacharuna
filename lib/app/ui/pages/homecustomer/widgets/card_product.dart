@@ -1,14 +1,15 @@
-import 'package:app_pacharuna/app/data/models/product_model.dart';
+import 'package:app_pacharuna/app/data/dto/products_dto.dart';
 import 'package:app_pacharuna/app/utils/global_colors.dart';
+import 'package:app_pacharuna/app/utils/global_utils.dart';
 import 'package:flutter/material.dart';
 
 class CardProduct extends StatelessWidget {
-  final Product product;
+  final DatumProduct datumProduct;
   final VoidCallback onPressed;
 
   const CardProduct({
     super.key,
-    required this.product,
+    required this.datumProduct,
     required this.onPressed,
   });
 
@@ -28,10 +29,15 @@ class CardProduct extends StatelessWidget {
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),
               ),
-              child: Image.network(
-                product.imageUrl,
-                fit: BoxFit.cover,
-              ),
+              child: datumProduct.images.isNotEmpty
+                  ? Image.network(
+                      '$url$versionService$methodGetImages${datumProduct.images[0]}',
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset(
+                      'assets/images/cosecha3.jpg',
+                      fit: BoxFit.cover,
+                    ),
             ),
           ),
           Padding(
@@ -40,7 +46,7 @@ class CardProduct extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.name, // Nombre del producto
+                  datumProduct.name, // Nombre del producto
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -48,7 +54,7 @@ class CardProduct extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  '\$${product.price.toStringAsFixed(2)}',
+                  'S/ ${datumProduct.price}',
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.green,
@@ -59,12 +65,12 @@ class CardProduct extends StatelessWidget {
                 ElevatedButton(
                   onPressed: onPressed,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: GlobalColors.primary,
+                    backgroundColor: GlobalColors.terciary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text('Ver detalles'),
+                  child:  Text('Ver detalles', style: TextStyle(color: GlobalColors.terciaryLight)),
                 ),
               ],
             ),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_pacharuna/app/data/dto/auth_dto.dart';
 import 'package:app_pacharuna/app/data/providers/login_provider.dart';
 
@@ -6,6 +8,7 @@ class LoginRepository {
 
   Future<AuthDto> authLogin(String username, String password) async {
     final response = await api.authLogin(username, password);
+    print(jsonEncode(response.body));
     if (response.body == null) {
       throw Exception("No se recibieron datos en la respuesta");
     } else if (response.body["status"] == false) {

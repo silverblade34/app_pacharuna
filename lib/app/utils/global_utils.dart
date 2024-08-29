@@ -1,9 +1,9 @@
- const String url = 'http://198.211.99.223:3030/';
+const String url = 'http://64.225.62.49:5080/';
 const String urlImages = 'http://198.211.99.223:3030/';
-const String versionService = 'api/v1/';
+const String versionService = 'api/';
 const String methodLogin = 'auth/login';
-const String methodFindAllProducts = 'courses/findAllToSyllabus';
-const String methodGetImageCourse = 'courses/getImage/';
+const String methodFindAllProducts = 'products/listAll';
+const String methodGetImages= 'images/';
 const String methodFindAllSyllabusBlocks = 'syllabus-block/findAllToSyllabus/';
 const String methodFindOneBlockPage = 'block-pages/';
 const String methodCreateBlockPage = 'block-pages';

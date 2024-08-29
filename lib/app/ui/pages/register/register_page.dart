@@ -1,12 +1,12 @@
-import 'package:app_pacharuna/app/controllers/login_controller.dart';
+import 'package:app_pacharuna/app/controllers/register_controller.dart';
 import 'package:app_pacharuna/app/utils/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginPage extends GetView<LoginController> {
-  const LoginPage({super.key});
+class RegisterPage extends GetView<RegisterController> {
+  const RegisterPage({super.key});
 
-  @override
+   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -17,7 +17,7 @@ class LoginPage extends GetView<LoginController> {
           child: Container(
             width: screenWidth,
             padding: EdgeInsets.only(
-                top: screenHeight * 0.15, right: 30, left: 30, bottom: 50),
+                top: screenHeight * 0.1, right: 30, left: 30, bottom: 50),
             child: Center(
               child: SizedBox(
                 width: double.infinity,
@@ -27,14 +27,14 @@ class LoginPage extends GetView<LoginController> {
                       height: 10,
                     ),
                     Image.asset(
-                      'assets/images/login_pacharuna.png',
-                      width: 200,
+                      'assets/images/registro_pacharuna.png',
+                      width: 150,
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     const Text(
-                      "Hola de nuevo!",
+                      "Registro",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
@@ -44,14 +44,14 @@ class LoginPage extends GetView<LoginController> {
                       height: 10,
                     ),
                     const Text(
-                      "Ingrese sus credenciales",
+                      "Por favor regístrese para iniciar sesión!",
                       style: TextStyle(
                         fontSize: 15,
                         color: Color.fromARGB(255, 88, 88, 88),
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +112,7 @@ class LoginPage extends GetView<LoginController> {
                         ),
                         InkWell(
                           onTap: () {
-                            controller.validateUser();
+                          
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -122,7 +122,7 @@ class LoginPage extends GetView<LoginController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Text(
-                              'Ingresar',
+                              'Registrarse',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -137,7 +137,7 @@ class LoginPage extends GetView<LoginController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Aún no tienes una cuenta?",
+                              "Ya tienes una cuenta?",
                               style: TextStyle(
                                 color: GlobalColors.greyHard,
                               ),
@@ -147,13 +147,13 @@ class LoginPage extends GetView<LoginController> {
                             ),
                             InkWell(
                               child: Text(
-                                "Registrarse",
+                                "Login",
                                 style: TextStyle(
                                     color: GlobalColors.terciary,
                                     fontWeight: FontWeight.bold),
                               ),
                               onTap: (){
-                                Get.toNamed("/register");
+                                print("-------------REGISTRARSE-------");
                               },
                             ),
                           ],
