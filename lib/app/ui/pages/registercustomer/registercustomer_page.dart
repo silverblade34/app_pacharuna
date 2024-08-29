@@ -1,14 +1,14 @@
-import 'package:app_pacharuna/app/controllers/register_controller.dart';
+import 'package:app_pacharuna/app/controllers/registercustomer_controller.dart';
+import 'package:app_pacharuna/app/ui/widgets/textfield_label.dart';
 import 'package:app_pacharuna/app/utils/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RegisterPage extends GetView<RegisterController> {
-  const RegisterPage({super.key});
+class RegisterCustomerPage extends GetView<RegisterCustomerController> {
+  const RegisterCustomerPage({super.key});
 
-   @override
+  @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -16,25 +16,22 @@ class RegisterPage extends GetView<RegisterController> {
         child: SafeArea(
           child: Container(
             width: screenWidth,
-            padding: EdgeInsets.only(
-                top: screenHeight * 0.1, right: 30, left: 30, bottom: 50),
+            padding:
+                const EdgeInsets.only(top: 20, right: 30, left: 30, bottom: 50),
             child: Center(
               child: SizedBox(
                 width: double.infinity,
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
                     Image.asset(
-                      'assets/images/registro_pacharuna.png',
+                      'assets/images/register_customer_pacharuna.png',
                       width: 100,
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     const Text(
-                      "Registro",
+                      "Registro Cliente",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
@@ -56,23 +53,51 @@ class RegisterPage extends GetView<RegisterController> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("Usuario"),
+                        TextFieldLabel(
+                            label: "Nombre",
+                            icon: const Icon(Icons.abc),
+                            hinText: "Ingrese su nombre",
+                            controller: controller.firstName),
                         const SizedBox(
                           height: 10,
                         ),
-                        TextField(
-                          controller: controller.username,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.person),
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                            ),
-                          ),
+                        TextFieldLabel(
+                            label: "Apellidos",
+                            icon: const Icon(Icons.text_fields_outlined),
+                            hinText: "Ingrese sus apellidos",
+                            controller: controller.lastName),
+                        const SizedBox(
+                          height: 10,
                         ),
+                        TextFieldLabel(
+                            label: "Razón social (Opcional)",
+                            icon: const Icon(Icons.business),
+                            hinText: "Razón social de su empresa",
+                            controller: controller.bussinesName),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFieldLabel(
+                            label: "Documento",
+                            hinText: "Ingrese DNI o RUC",
+                            icon: const Icon(Icons.contact_emergency_outlined),
+                            controller: controller.document),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFieldLabel(
+                            label: "Telefono",
+                            hinText: "Ingrese su telefono",
+                            icon: const Icon(Icons.phone),
+                            controller: controller.phone),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFieldLabel(
+                            label: "Usuario",
+                            hinText: "Ingrese un usuario",
+                            icon: const Icon(Icons.person),
+                            controller: controller.username),
                         const SizedBox(
                           height: 10,
                         ),
@@ -97,6 +122,7 @@ class RegisterPage extends GetView<RegisterController> {
                                       : Icons.visibility,
                                 ),
                               ),
+                              hintText: "Ingrese una contraseña",
                               filled: true,
                               fillColor: Colors.white,
                               border: const OutlineInputBorder(
@@ -112,7 +138,7 @@ class RegisterPage extends GetView<RegisterController> {
                         ),
                         InkWell(
                           onTap: () {
-                          
+                            controller.registerCustomer();
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -146,14 +172,17 @@ class RegisterPage extends GetView<RegisterController> {
                               width: 10,
                             ),
                             InkWell(
-                              child: Text(
-                                "Login",
-                                style: TextStyle(
-                                    color: GlobalColors.terciary,
-                                    fontWeight: FontWeight.bold),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Login",
+                                  style: TextStyle(
+                                      color: GlobalColors.terciary,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
-                              onTap: (){
-                                print("-------------REGISTRARSE-------");
+                              onTap: () {
+                                Get.offAllNamed("/login");
                               },
                             ),
                           ],

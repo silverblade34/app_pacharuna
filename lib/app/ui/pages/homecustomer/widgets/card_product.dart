@@ -54,7 +54,7 @@ class CardProduct extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  'S/ ${datumProduct.price}',
+                  'S/ ${datumProduct.price} - ${datumProduct.unitExtent}',
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.green,
@@ -70,7 +70,8 @@ class CardProduct extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child:  Text('Ver detalles', style: TextStyle(color: GlobalColors.terciaryLight)),
+                  child: Text('Ver detalles',
+                      style: TextStyle(color: GlobalColors.terciaryLight)),
                 ),
               ],
             ),

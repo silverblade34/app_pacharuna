@@ -8,9 +8,6 @@ class LoginProvider extends GetConnect {
         'username': username,
         'password': password
       };
-      print("-------------------------------------------------");
-      print('$url$versionService$methodLogin');
-      print("-------------------------------------------------");
       final response = await post('$url$versionService$methodLogin', payload)
           .timeout(const Duration(milliseconds: 25000));
       return response;

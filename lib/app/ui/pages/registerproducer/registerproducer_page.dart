@@ -1,14 +1,14 @@
-import 'package:app_pacharuna/app/controllers/login_controller.dart';
+import 'package:app_pacharuna/app/controllers/registerproducer_controller.dart';
+import 'package:app_pacharuna/app/ui/widgets/textfield_label.dart';
 import 'package:app_pacharuna/app/utils/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginPage extends GetView<LoginController> {
-  const LoginPage({super.key});
+class RegisterProducerPage extends GetView<RegisterProducerController> {
+  const RegisterProducerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -16,25 +16,22 @@ class LoginPage extends GetView<LoginController> {
         child: SafeArea(
           child: Container(
             width: screenWidth,
-            padding: EdgeInsets.only(
-                top: screenHeight * 0.15, right: 30, left: 30, bottom: 50),
+            padding:
+                const EdgeInsets.only(top: 20, right: 30, left: 30, bottom: 50),
             child: Center(
               child: SizedBox(
                 width: double.infinity,
                 child: Column(
                   children: [
+                    Image.asset(
+                      'assets/images/registro_pacharuna.png',
+                      width: 80,
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
-                    Image.asset(
-                      'assets/images/login_pacharuna.png',
-                      width: 200,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
                     const Text(
-                      "Hola de nuevo!",
+                      "Registro Productor",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
@@ -44,35 +41,55 @@ class LoginPage extends GetView<LoginController> {
                       height: 10,
                     ),
                     const Text(
-                      "Ingrese sus credenciales",
+                      "Por favor regístrese para iniciar sesión!",
                       style: TextStyle(
                         fontSize: 15,
                         color: Color.fromARGB(255, 88, 88, 88),
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("Usuario"),
+                        TextFieldLabel(
+                            label: "Nombre",
+                            icon: const Icon(Icons.abc),
+                            hinText: "Ingrese su nombre",
+                            controller: controller.name),
                         const SizedBox(
                           height: 10,
                         ),
-                        TextField(
-                          controller: controller.username,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.person),
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                            ),
-                          ),
+                        TextFieldLabel(
+                            label: "Razón social (Opcional)",
+                            icon: const Icon(Icons.business),
+                            hinText: "Razón social de su empresa",
+                            controller: controller.bussinesName),
+                        const SizedBox(
+                          height: 10,
                         ),
+                        TextFieldLabel(
+                            label: "Documento",
+                            hinText: "Ingrese DNI o RUC",
+                            icon: const Icon(Icons.contact_emergency_outlined),
+                            controller: controller.document),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFieldLabel(
+                            label: "Telefono",
+                            hinText: "Ingrese su telefono",
+                            icon: const Icon(Icons.phone),
+                            controller: controller.phone),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFieldLabel(
+                            label: "Usuario",
+                            hinText: "Ingrese un usuario",
+                            icon: const Icon(Icons.person),
+                            controller: controller.username),
                         const SizedBox(
                           height: 10,
                         ),
@@ -97,6 +114,7 @@ class LoginPage extends GetView<LoginController> {
                                       : Icons.visibility,
                                 ),
                               ),
+                              hintText: "Ingrese una contraseña",
                               filled: true,
                               fillColor: Colors.white,
                               border: const OutlineInputBorder(
@@ -112,7 +130,7 @@ class LoginPage extends GetView<LoginController> {
                         ),
                         InkWell(
                           onTap: () {
-                            controller.validateUser();
+                            controller.registerProducer();
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -122,7 +140,7 @@ class LoginPage extends GetView<LoginController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Text(
-                              'Ingresar',
+                              'Registrarse',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -137,7 +155,7 @@ class LoginPage extends GetView<LoginController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Aún no tienes una cuenta?",
+                              "Ya tienes una cuenta?",
                               style: TextStyle(
                                 color: GlobalColors.greyHard,
                               ),
@@ -149,41 +167,14 @@ class LoginPage extends GetView<LoginController> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Registrarse",
+                                  "Login",
                                   style: TextStyle(
                                       color: GlobalColors.terciary,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
                               onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text(
-                                        "¿Eres un cliente o un productor?",
-                                        style: TextStyle(fontSize: 19),
-                                      ),
-                                      content: const Text("Elige tu opción"),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Get.offAllNamed(
-                                                "/register_customer");
-                                          },
-                                          child: const Text("Cliente"),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Get.offAllNamed(
-                                                "/register_producer");
-                                          },
-                                          child: const Text("Productor"),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                Get.offAllNamed("/login");
                               },
                             ),
                           ],
