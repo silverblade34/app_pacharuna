@@ -28,7 +28,7 @@ class RegisterPage extends GetView<RegisterController> {
                     ),
                     Image.asset(
                       'assets/images/registro_pacharuna.png',
-                      width: 150,
+                      width: 100,
                     ),
                     const SizedBox(
                       height: 20,
