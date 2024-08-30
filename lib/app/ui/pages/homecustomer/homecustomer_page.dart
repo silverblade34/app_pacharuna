@@ -87,6 +87,7 @@ class HomecustomerPage extends GetView<HomecustomerController> {
                         DatumProduct product = controller.productsFilter[index];
                         return CardProduct(
                             datumProduct: product,
+                            textButton: "Ver detalles",
                             onPressed: () {
                               controller.goToDetailsProduct(product);
                             });

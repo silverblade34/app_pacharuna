@@ -1,15 +1,16 @@
-import 'package:app_pacharuna/app/data/dto/products_dto.dart';
 import 'package:app_pacharuna/app/utils/global_colors.dart';
 import 'package:app_pacharuna/app/utils/global_utils.dart';
 import 'package:flutter/material.dart';
 
 class CardProduct extends StatelessWidget {
-  final DatumProduct datumProduct;
+  final dynamic datumProduct;
+  final String textButton;
   final VoidCallback onPressed;
 
   const CardProduct({
     super.key,
     required this.datumProduct,
+    required this.textButton,
     required this.onPressed,
   });
 
@@ -70,7 +71,7 @@ class CardProduct extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text('Ver detalles',
+                  child: Text(textButton,
                       style: TextStyle(color: GlobalColors.terciaryLight)),
                 ),
               ],

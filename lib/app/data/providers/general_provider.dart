@@ -11,4 +11,14 @@ class GeneralProvider extends GetConnect {
       throw Exception("Error de conexión al servidor");
     }
   }
+
+  Future<Response> getUnitExtends() async {
+    try {
+      final response = await get('$url$versionService$methodFindAllUnitExtends')
+          .timeout(const Duration(milliseconds: 25000));
+      return response;
+    } catch (e) {
+      throw Exception("Error de conexión al servidor");
+    }
+  }
 }
