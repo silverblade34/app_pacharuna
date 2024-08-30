@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:app_pacharuna/app/data/dto/categories_dto.dart';
 import 'package:app_pacharuna/app/data/dto/productsproducer_dto.dart';
 import 'package:app_pacharuna/app/data/models/imageitem_model.dart';
 import 'package:app_pacharuna/app/data/repositories/general_repository.dart';
+import 'package:app_pacharuna/app/data/repositories/updateproduct_repository.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:get/get.dart';
@@ -11,6 +14,7 @@ class UpdateProductController extends GetxController {
   DatumProductProducer product = Get.arguments;
   GeneralRepository generalRepository = GeneralRepository();
   RxList<DatumCategory> categories = RxList<DatumCategory>([]);
+  UpdateProductRepository updateProductRepository = UpdateProductRepository();
 
   var name = ''.obs;
   var description = ''.obs;
@@ -19,6 +23,7 @@ class UpdateProductController extends GetxController {
   var stock = 0.obs;
   var unitExtent = ''.obs;
   var images = <ImageItemModel>[].obs;
+  var imagesGallery = <File>[].obs;
 
   @override
   void onInit() async {
@@ -48,6 +53,7 @@ class UpdateProductController extends GetxController {
       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
       if (image != null) {
         images.add(ImageItemModel(path: image.path, type: "LOCALSTORAGE"));
+        imagesGallery.add(File(image.path));
       }
     } else {
       EasyLoading.showInfo("Debe otorgar permisos para la camara");
@@ -63,11 +69,46 @@ class UpdateProductController extends GetxController {
   }
 
   void removeImage(int index) {
+    final imageToRemove = images[index];
+
+    if (imageToRemove.type == "LOCALSTORAGE") {
+      imagesGallery.removeWhere((file) => file.path == imageToRemove.path);
+    }
     images.removeAt(index);
   }
 
-  void updateProduct() {
-    // Lógica para actualizar el producto en la base de datos
-    // ...
+  void updateProduct() async {
+    if (name.value != "" &&
+        description.value != "" &&
+        categoryId.value != 0 &&
+        price.value != "" &&
+        stock.value != 0 &&
+        unitExtent.value != "" &&
+        unitExtent.value != "SIN SELECCIONAR") {
+      if (imagesGallery.isNotEmpty) {
+        EasyLoading.show(status: "Guardando...");
+        Map<String, dynamic> dataProduct = {
+          "name": name.value,
+          "description": description.value,
+          "category_id": categoryId.value,
+          "price": price.value,
+          "stock": stock.value,
+          "unitExtent": unitExtent.value
+        };
+        await updateProductRepository.updateProduct(
+            product.id, dataProduct, imagesGallery);
+        EasyLoading.dismiss();
+
+        EasyLoading.showSuccess(
+            "Se ha editado correctamente el producto");
+        Future.delayed(const Duration(seconds: 1), () {
+          Get.offAllNamed("/home_producer");
+        });
+      } else {
+        EasyLoading.showInfo("Debe cargar al menos una imagen");
+      }
+    } else {
+      EasyLoading.showInfo("Debe rellenar todos los campos");
+    }
   }
 }

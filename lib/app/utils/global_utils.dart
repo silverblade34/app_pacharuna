@@ -11,4 +11,5 @@ const String methodRegisterProducer = 'producers/create';
 const String methodFindAllCategories = 'categories/list';
 const String methodFindAllUnitExtends = 'extend/list';
 const String methodCreateProduct = 'products/create';
+const String methodUpdateProduct = 'products/';
 const String methodSalesCreate = 'sales/create';

@@ -66,6 +66,25 @@ class UpdateProductPage extends GetView<UpdateProductController> {
                       }).toList(),
                     )),
                 const SizedBox(height: 16),
+                Obx(() => DropdownButtonFormField<String>(
+                      decoration: const InputDecoration(labelText: 'Unidad'),
+                      value: controller.unitExtent.value.isEmpty
+                          ? 'SIN SELECCIONAR'
+                          : controller.unitExtent.value,
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          controller.unitExtent.value = newValue;
+                        }
+                      },
+                      items: <String>['SIN SELECCIONAR', 'kg', 'Tn', 'Lb']
+                          .map((String unit) {
+                        return DropdownMenuItem<String>(
+                          value: unit,
+                          child: Text(unit),
+                        );
+                      }).toList(),
+                    )),
+                const SizedBox(height: 16),
                 TextField(
                   decoration: const InputDecoration(labelText: 'Precio'),
                   controller:
@@ -81,13 +100,6 @@ class UpdateProductPage extends GetView<UpdateProductController> {
                   keyboardType: TextInputType.number,
                   onChanged: (value) =>
                       controller.stock.value = int.parse(value),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  decoration: const InputDecoration(labelText: 'Unidad'),
-                  controller:
-                      TextEditingController(text: controller.unitExtent.value),
-                  onChanged: (value) => controller.unitExtent.value = value,
                 ),
                 const SizedBox(height: 16),
                 Row(

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:app_pacharuna/app/data/dto/categories_dto.dart';
+import 'package:app_pacharuna/app/data/repositories/createproduct_repository.dart';
 import 'package:app_pacharuna/app/data/repositories/general_repository.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -9,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 class CreateProductController extends GetxController {
   GeneralRepository generalRepository = GeneralRepository();
   RxList<DatumCategory> categories = RxList<DatumCategory>([]);
+  CreateProductRepository createProductRepository = CreateProductRepository();
 
   var name = ''.obs;
   var description = ''.obs;
@@ -56,10 +58,34 @@ class CreateProductController extends GetxController {
   }
 
   void createProduct() async {
-    // Lógica para crear el producto y enviar las imágenes en form-data
-    EasyLoading.show(status: "Guardando...");
-    // Implementar la lógica para crear el producto
-    // ...
-    EasyLoading.dismiss();
+    if (name.value != "" &&
+        description.value != "" &&
+        categoryId.value != 0 &&
+        price.value != "" &&
+        stock.value != 0 &&
+        unitExtent.value != "" &&
+        unitExtent.value != "SIN SELECCIONAR") {
+      if (images.isNotEmpty) {
+        EasyLoading.show(status: "Guardando...");
+        Map<String, dynamic> dataProduct = {
+          "name": name.value,
+          "description": description.value,
+          "category_id": categoryId.value,
+          "price": price.value,
+          "stock": stock.value,
+          "unitExtent": unitExtent.value
+        };
+        await createProductRepository.createProduct(dataProduct, images);
+
+        EasyLoading.showSuccess("Se ha creado correctamente el producto");
+        Future.delayed(const Duration(seconds: 1), () {
+          Get.offAllNamed("/home_customer");
+        });
+      } else {
+        EasyLoading.showInfo("Debe cargar al menos una imagen");
+      }
+    } else {
+      EasyLoading.showInfo("Debe rellenar todos los campos");
+    }
   }
 }

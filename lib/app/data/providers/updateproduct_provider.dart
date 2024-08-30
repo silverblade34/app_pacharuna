@@ -5,15 +5,16 @@ import 'package:app_pacharuna/app/utils/global_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 
-class CreateProductProvider {
+class UpdateProductProvider {
   final box = GetStorage();
   late String token;
 
-  CreateProductProvider() {
+  UpdateProductProvider() {
     token = box.read("token");
   }
 
-  Future<Response> createProduct(
+  Future<Response> updateProduct(
+    int productId,
     Map<String, dynamic> textFields,
     List<File> images,
   ) async {
@@ -36,8 +37,8 @@ class CreateProductProvider {
       );
 
       final response = await dioClient
-          .post(
-            '$url$versionService$methodCreateProduct',
+          .patch(
+            '$url$versionService$methodUpdateProduct$productId',
             data: formData,
             options: Options(
               contentType: 'multipart/form-data',
