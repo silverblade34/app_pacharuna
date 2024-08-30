@@ -1,38 +1,38 @@
 // To parse this JSON data, do
 //
-//     final productsDto = productsDtoFromJson(jsonString);
+//     final productDetailDto = productDetailDtoFromJson(jsonString);
 
 import 'dart:convert';
 
-ProductsDto productsDtoFromJson(String str) => ProductsDto.fromJson(json.decode(str));
+ProductDetailDto productDetailDtoFromJson(String str) => ProductDetailDto.fromJson(json.decode(str));
 
-String productsDtoToJson(ProductsDto data) => json.encode(data.toJson());
+String productDetailDtoToJson(ProductDetailDto data) => json.encode(data.toJson());
 
-class ProductsDto {
+class ProductDetailDto {
     bool status;
     String message;
-    List<DatumProduct> data;
+    DataProductDetail data;
 
-    ProductsDto({
+    ProductDetailDto({
         required this.status,
         required this.message,
         required this.data,
     });
 
-    factory ProductsDto.fromJson(Map<String, dynamic> json) => ProductsDto(
+    factory ProductDetailDto.fromJson(Map<String, dynamic> json) => ProductDetailDto(
         status: json["status"],
         message: json["message"],
-        data: List<DatumProduct>.from(json["data"].map((x) => DatumProduct.fromJson(x))),
+        data: DataProductDetail.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": data.toJson(),
     };
 }
 
-class DatumProduct {
+class DataProductDetail {
     int productId;
     String name;
     String description;
@@ -41,9 +41,8 @@ class DatumProduct {
     int stock;
     String unitExtent;
     Producer producer;
-    List<String> images;
 
-    DatumProduct({
+    DataProductDetail({
         required this.productId,
         required this.name,
         required this.description,
@@ -52,10 +51,9 @@ class DatumProduct {
         required this.stock,
         required this.unitExtent,
         required this.producer,
-        required this.images,
     });
 
-    factory DatumProduct.fromJson(Map<String, dynamic> json) => DatumProduct(
+    factory DataProductDetail.fromJson(Map<String, dynamic> json) => DataProductDetail(
         productId: json["productId"],
         name: json["name"],
         description: json["description"],
@@ -64,7 +62,6 @@ class DatumProduct {
         stock: json["stock"],
         unitExtent: json["unitExtent"],
         producer: Producer.fromJson(json["producer"]),
-        images: List<String>.from(json["images"].map((x) => x)),
     );
 
     Map<String, dynamic> toJson() => {
@@ -76,7 +73,6 @@ class DatumProduct {
         "stock": stock,
         "unitExtent": unitExtent,
         "producer": producer.toJson(),
-        "images": List<dynamic>.from(images.map((x) => x)),
     };
 }
 

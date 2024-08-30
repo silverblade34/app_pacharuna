@@ -78,7 +78,7 @@ class HomecustomerPage extends GetView<HomecustomerController> {
                         return CardProduct(
                             datumProduct: product,
                             onPressed: () {
-                              Get.toNamed("/detail_product");
+                              controller.goToDetailsProduct(product);
                             });
                       },
                     );

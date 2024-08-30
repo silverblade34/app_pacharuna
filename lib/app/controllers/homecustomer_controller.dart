@@ -60,4 +60,8 @@ class HomecustomerController extends GetxController {
     final validate = await homeCustomerRepository.findAllProducts();
     products.value = validate.data;
   }
+
+  goToDetailsProduct(DatumProduct product) async {
+    Get.toNamed("/detail_product", arguments: product);
+  }
 }

@@ -1,4 +1,7 @@
 import 'package:app_pacharuna/app/controllers/detailproduct_controller.dart';
+import 'package:app_pacharuna/app/ui/pages/detailproduct/widgets/image_carousel.dart';
+import 'package:app_pacharuna/app/ui/pages/detailproduct/widgets/product_description.dart';
+import 'package:app_pacharuna/app/ui/pages/detailproduct/widgets/textbutton_unit.dart';
 import 'package:app_pacharuna/app/utils/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,22 +36,22 @@ class DetailProductPage extends GetView<DetailProductController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Carrusel de imágenes del producto
-              _buildImageCarousel(),
+              buildImageCarousel(controller.product.images),
               const SizedBox(height: 16),
-              const Text(
-                "Manzana Ana de Israel",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              Text(
+                controller.capitalizeFirstLetter(controller.product.name),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              const Row(
+              Row(
                 children: [
-                  Icon(Icons.star, color: Colors.amber),
-                  Text("4.9 Puntaje", style: TextStyle(fontSize: 16)),
-                  Spacer(),
+                  const Icon(Icons.star, color: Colors.amber),
+                  const Text("4.9 Puntaje", style: TextStyle(fontSize: 16)),
+                  const Spacer(),
                   Text(
-                    "\$ 18.00 (Kg)",
-                    style: TextStyle(
+                    "S/ ${controller.product.price} (${controller.product.unitExtent})",
+                    style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.green),
@@ -56,7 +59,7 @@ class DetailProductPage extends GetView<DetailProductController> {
                 ],
               ),
               const SizedBox(height: 16),
-              _buildProductDescription(),
+              buildProductDescription(controller.product.description),
               const SizedBox(height: 16),
               const Text(
                 "Unidad de medida",
@@ -65,50 +68,11 @@ class DetailProductPage extends GetView<DetailProductController> {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Kg',
-                      style: TextStyle(color: Color.fromARGB(255, 66, 66, 66)),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 233, 233, 233),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 15,
-                      ),
-                    ),
-                  ),
+                  TextButtonUnit(controller: controller, typeUnit: 'Kg'),
                   const SizedBox(width: 10),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Tn',
-                      style: TextStyle(color: Color.fromARGB(255, 66, 66, 66)),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 233, 233, 233),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 15,
-                      ),
-                    ),
-                  ),
+                  TextButtonUnit(controller: controller, typeUnit: 'Tn'),
                   const SizedBox(width: 10),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Lb',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 118, 175, 221),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 15,
-                      ),
-                    ),
-                  ),
+                  TextButtonUnit(controller: controller, typeUnit: 'Lb'),
                 ],
               ),
               const SizedBox(height: 20),
@@ -128,7 +92,7 @@ class DetailProductPage extends GetView<DetailProductController> {
                         padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(3),
-                            color: GlobalColors.secondary),
+                            color: GlobalColors.primary),
                         child: const Icon(
                           Icons.remove,
                           color: Colors.white,
@@ -157,7 +121,7 @@ class DetailProductPage extends GetView<DetailProductController> {
                         padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(3),
-                            color: GlobalColors.secondary),
+                            color: GlobalColors.primary),
                         child: const Icon(
                           Icons.add,
                           color: Colors.white,
@@ -169,7 +133,9 @@ class DetailProductPage extends GetView<DetailProductController> {
                     ),
                     Expanded(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          controller.createSale();
+                        },
                         child: Container(
                           alignment: Alignment.center,
                           height: 50,
@@ -194,50 +160,6 @@ class DetailProductPage extends GetView<DetailProductController> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildImageCarousel() {
-    return SizedBox(
-      height: 250,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          _buildProductImage('assets/images/cosecha1.jpg'),
-          _buildProductImage('assets/images/cosecha2.jpg'),
-          _buildProductImage('assets/images/cosecha3.jpg'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildProductImage(String imagePath) {
-    return Container(
-      margin: const EdgeInsets.only(right: 8),
-      width: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        image: DecorationImage(
-          image: AssetImage(imagePath),
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildProductDescription() {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Descripción",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        SizedBox(height: 8),
-        Text(
-          "Se pone a su disposición manzanas Ana de Israel lo llevamos hasta tu puesto de mercado o a tu domicilio, 3Kg, 5Kg, 10Kg a más; 5, 7, 8, 9  soles Kg según tamaño o selección",
-          style: TextStyle(fontSize: 16),
-        ),
-        SizedBox(height: 16),
-      ],
     );
   }
 }
