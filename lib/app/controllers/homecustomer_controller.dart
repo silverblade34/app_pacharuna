@@ -11,14 +11,17 @@ class HomecustomerController extends GetxController {
   HomeCustomerRepository homeCustomerRepository = HomeCustomerRepository();
   GeneralRepository generalRepository = GeneralRepository();
   RxList<DatumProduct> products = RxList<DatumProduct>([]);
+  RxList<DatumProduct> productsFilter = RxList<DatumProduct>([]);
   RxList<DatumCategory> categories = RxList<DatumCategory>([]);
+  RxBool isLoading = true.obs;
+
   RxList<DropdownMenuItem<String>> itemsCategories =
       RxList<DropdownMenuItem<String>>(
     [
       const DropdownMenuItem(
         value: "0",
         child: Text(
-          "SELECCIONAR",
+          "TODOS",
           textAlign: TextAlign.center,
         ),
       ),
@@ -30,6 +33,7 @@ class HomecustomerController extends GetxController {
     super.onInit();
     await getProducts();
     await getCategories();
+    isLoading.value = false;
   }
 
   getCategories() async {
@@ -37,7 +41,7 @@ class HomecustomerController extends GetxController {
     categories.value = validate.data;
     itemsCategories.value = categories.map((category) {
       return DropdownMenuItem<String>(
-        value: category.name,
+        value: category.id.toString(),
         child: Text(
           category.name,
           textAlign: TextAlign.center,
@@ -50,7 +54,7 @@ class HomecustomerController extends GetxController {
         const DropdownMenuItem(
           value: "0",
           child: Text(
-            "SELECCIONAR",
+            "TODOS",
             textAlign: TextAlign.center,
           ),
         ));
@@ -59,9 +63,21 @@ class HomecustomerController extends GetxController {
   getProducts() async {
     final validate = await homeCustomerRepository.findAllProducts();
     products.value = validate.data;
+    productsFilter.value = validate.data;
   }
 
   goToDetailsProduct(DatumProduct product) async {
     Get.toNamed("/detail_product", arguments: product);
+  }
+
+  filterProducts() {
+    String searchText = searchProduct.text.toLowerCase();
+    productsFilter.value = products.where((product) {
+      final matchesCategory = valueCategoryDropdown.value == "0" ||
+          product.categoryId.toString() == valueCategoryDropdown.value;
+      final matchesSearchText =
+          searchText.isEmpty || product.name.toLowerCase().contains(searchText);
+      return matchesCategory && matchesSearchText;
+    }).toList();
   }
 }

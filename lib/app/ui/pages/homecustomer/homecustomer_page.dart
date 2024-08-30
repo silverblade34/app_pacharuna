@@ -32,28 +32,33 @@ class HomecustomerPage extends GetView<HomecustomerController> {
                     child: TextField(
                       controller: controller.searchProduct,
                       decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                          hintText: "Buscar"),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        hintText: "Buscar",
+                      ),
+                      onChanged: (text) {
+                        controller.filterProducts();
+                      },
                     ),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
-                  Expanded(
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: controller.valueCategoryDropdown.value,
-                      underline: Container(color: Colors.transparent),
-                      items: controller.itemsCategories,
-                      onChanged: (String? newValue) async {
-                        if (newValue != null) {
-                          controller.valueCategoryDropdown.value = newValue;
-                        }
-                      },
+                  Obx(
+                    () => Expanded(
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: controller.valueCategoryDropdown.value,
+                        underline: Container(color: Colors.transparent),
+                        items: controller.itemsCategories,
+                        onChanged: (String? newValue) async {
+                          if (newValue != null) {
+                            controller.valueCategoryDropdown.value = newValue;
+                            controller.filterProducts();
+                          }
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -64,6 +69,11 @@ class HomecustomerPage extends GetView<HomecustomerController> {
               Expanded(
                 child: Obx(
                   () {
+                    if (controller.isLoading.value) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
                     return GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
@@ -72,9 +82,9 @@ class HomecustomerPage extends GetView<HomecustomerController> {
                         mainAxisSpacing: 10,
                         childAspectRatio: 0.7,
                       ),
-                      itemCount: controller.products.length,
+                      itemCount: controller.productsFilter.length,
                       itemBuilder: (BuildContext context, int index) {
-                        DatumProduct product = controller.products[index];
+                        DatumProduct product = controller.productsFilter[index];
                         return CardProduct(
                             datumProduct: product,
                             onPressed: () {

@@ -20,14 +20,14 @@ class DetailProductPage extends GetView<DetailProductController> {
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        actions: [
-          IconButton(
-              icon: const Icon(
-                Icons.shopping_cart_outlined,
-                color: Colors.white,
-              ),
-              onPressed: () {}),
-        ],
+        // actions: [
+        //   IconButton(
+        //       icon: const Icon(
+        //         Icons.shopping_cart_outlined,
+        //         color: Colors.white,
+        //       ),
+        //       onPressed: () {}),
+        // ],
         backgroundColor: GlobalColors.primary,
       ),
       body: SingleChildScrollView(

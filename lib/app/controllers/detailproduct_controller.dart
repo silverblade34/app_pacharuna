@@ -23,7 +23,7 @@ class DetailProductController extends GetxController {
           "Hola, estoy interesado en ${amountProduct.value} ${selectedButton.value} de ${product.name}.";
       String phoneNumber = "+51${product.producer.phone}";
       String urlString =
-          "https://wa.me/+51917695853?text=${Uri.encodeComponent(message)}";
+          "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
       Uri url = Uri.parse(urlString);
       await launchUrl(url);
     } else {

@@ -76,7 +76,7 @@ class LoginController extends GetxController {
     if (role == "CUSTOMER") {
       pages.add(
         MenuOptionsModel(
-          title: 'Home',
+          title: 'Productos',
           route: '/home_customer',
         ),
       );
