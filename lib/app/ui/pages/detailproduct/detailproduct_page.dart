@@ -45,9 +45,17 @@ class DetailProductPage extends GetView<DetailProductController> {
               ),
               const SizedBox(height: 8),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Icon(Icons.star, color: Colors.amber),
-                  const Text("4.9 Puntaje", style: TextStyle(fontSize: 16)),
+                  Image.asset(
+                    'assets/images/campesino_login.png',
+                    width: 20,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(controller.product.producer.bussinesName.toUpperCase(),
+                      style: const TextStyle(fontSize: 14)),
                   const Spacer(),
                   Text(
                     "S/ ${controller.product.price} (${controller.product.unitExtent})",
@@ -71,8 +79,6 @@ class DetailProductPage extends GetView<DetailProductController> {
                   TextButtonUnit(controller: controller, typeUnit: 'Kg'),
                   const SizedBox(width: 10),
                   TextButtonUnit(controller: controller, typeUnit: 'Tn'),
-                  const SizedBox(width: 10),
-                  TextButtonUnit(controller: controller, typeUnit: 'Lb'),
                 ],
               ),
               const SizedBox(height: 20),

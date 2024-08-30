@@ -40,7 +40,6 @@ class DatumProductProducer {
     String price;
     int stock;
     String unitExtent;
-    int producerId;
     List<String> images;
 
     DatumProductProducer({
@@ -51,19 +50,17 @@ class DatumProductProducer {
         required this.price,
         required this.stock,
         required this.unitExtent,
-        required this.producerId,
         required this.images,
     });
 
     factory DatumProductProducer.fromJson(Map<String, dynamic> json) => DatumProductProducer(
-        id: json["id"],
+        id: json["productId"],
         name: json["name"],
         description: json["description"],
         categoryId: json["category_id"],
         price: json["price"],
         stock: json["stock"],
         unitExtent: json["unitExtent"],
-        producerId: json["producer_id"],
         images: List<String>.from(json["images"].map((x) => x)),
     );
 
@@ -75,7 +72,6 @@ class DatumProductProducer {
         "price": price,
         "stock": stock,
         "unitExtent": unitExtent,
-        "producer_id": producerId,
         "images": List<dynamic>.from(images.map((x) => x)),
     };
 }

@@ -89,6 +89,10 @@ class HomeProducerPage extends GetView<HomeProducerController> {
                         return CardProduct(
                             textButton: "Editar",
                             datumProduct: product,
+                            deleteButton: true,
+                            onPressedDelete: () {
+                              print("ELIMINAR PRODUCTO...");
+                            },
                             onPressed: () {
                               controller.goToUpdateProduct(product);
                             });

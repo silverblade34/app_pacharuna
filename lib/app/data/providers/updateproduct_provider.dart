@@ -22,19 +22,21 @@ class UpdateProductProvider {
       Dio dioClient = Dio();
       dioClient.options.headers['Authorization'] = 'Bearer $token';
 
-       final formData = FormData.fromMap(
-        {
-          ...textFields,
-          'images': [
-            for (var image in images)
+      final formData = FormData.fromMap(textFields);
+
+      if (images.isNotEmpty) {
+        formData.files.addAll([
+          for (var image in images)
+            MapEntry(
+              'images',
               await MultipartFile.fromFile(
                 image.path,
                 filename: path.basename(image.path),
                 contentType: DioMediaType('image', 'jpeg'),
               ),
-          ],
-        },
-      );
+            ),
+        ]);
+      }
 
       final response = await dioClient
           .patch(
@@ -45,6 +47,27 @@ class UpdateProductProvider {
             ),
           )
           .timeout(const Duration(milliseconds: 25000));
+
+      return response;
+    } catch (e) {
+      throw Exception("Error de conexión al servidor: $e");
+    }
+  }
+
+  Future<Response> deleteImagesProduct(
+      int productId, List<int> imagesId) async {
+    try {
+      Dio dioClient = Dio();
+      dioClient.options.headers['Authorization'] = 'Bearer $token';
+      print("-------------------------------");
+      print(imagesId);
+      print("-------------------------------");
+      print('$url$versionService$methodDeleteImagesProduct$productId');
+      final response = await dioClient.delete(
+          '$url$versionService$methodDeleteImagesProduct$productId',
+          data: {
+            "imageIds": imagesId
+          }).timeout(const Duration(milliseconds: 25000));
 
       return response;
     } catch (e) {

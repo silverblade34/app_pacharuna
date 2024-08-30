@@ -74,7 +74,7 @@ class CreateProductPage extends GetView<CreateProductController> {
                           controller.unitExtent.value = newValue;
                         }
                       },
-                      items: <String>['SIN SELECCIONAR', 'Kg', 'Tn', 'Lb']
+                      items: <String>['SIN SELECCIONAR', 'Kg', 'Tn']
                           .map((String unit) {
                         return DropdownMenuItem<String>(
                           value: unit,

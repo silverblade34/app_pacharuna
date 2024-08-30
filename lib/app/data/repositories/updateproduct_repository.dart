@@ -16,4 +16,15 @@ class UpdateProductRepository {
     final body = response.data;
     return body;
   }
+
+  Future<dynamic> deleteImagesProduct(int productId, List<int> imagesId) async {
+    final response = await api.deleteImagesProduct(productId, imagesId);
+    if (response.data == null) {
+      throw Exception("No se recibieron datos en la respuesta");
+    } else if (response.data["status"] == false) {
+      throw Exception(response.data["message"]);
+    }
+    final body = response.data;
+    return body;
+  }
 }

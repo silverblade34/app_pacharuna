@@ -79,7 +79,7 @@ class CreateProductController extends GetxController {
 
         EasyLoading.showSuccess("Se ha creado correctamente el producto");
         Future.delayed(const Duration(seconds: 1), () {
-          Get.offAllNamed("/home_customer");
+          Get.offAllNamed("/home_producer");
         });
       } else {
         EasyLoading.showInfo("Debe cargar al menos una imagen");

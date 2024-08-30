@@ -4,14 +4,18 @@ import 'package:flutter/material.dart';
 
 class CardProduct extends StatelessWidget {
   final dynamic datumProduct;
+  final bool deleteButton;
   final String textButton;
   final VoidCallback onPressed;
+  final VoidCallback? onPressedDelete;
 
   const CardProduct({
     super.key,
     required this.datumProduct,
+    this.deleteButton = false,
     required this.textButton,
     required this.onPressed,
+    this.onPressedDelete,
   });
 
   @override
@@ -63,16 +67,33 @@ class CardProduct extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 5),
-                ElevatedButton(
-                  onPressed: onPressed,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: GlobalColors.terciary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: onPressed,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: GlobalColors.terciary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        textButton,
+                        style: const TextStyle(color: Colors.white),
+                      ),
                     ),
-                  ),
-                  child: Text(textButton,
-                      style: TextStyle(color: GlobalColors.terciaryLight)),
+                    if (deleteButton) ...[
+                      const SizedBox(width: 5),
+                      IconButton(
+                        onPressed: onPressedDelete,
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ]
+                  ],
                 ),
               ],
             ),

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:app_pacharuna/app/data/dto/categories_dto.dart';
 import 'package:app_pacharuna/app/data/dto/productsproducer_dto.dart';
 import 'package:app_pacharuna/app/data/models/imageitem_model.dart';
@@ -24,6 +23,7 @@ class UpdateProductController extends GetxController {
   var unitExtent = ''.obs;
   var images = <ImageItemModel>[].obs;
   var imagesGallery = <File>[].obs;
+  var listImagesDelete = <int>[].obs;
 
   @override
   void onInit() async {
@@ -73,6 +73,14 @@ class UpdateProductController extends GetxController {
 
     if (imageToRemove.type == "LOCALSTORAGE") {
       imagesGallery.removeWhere((file) => file.path == imageToRemove.path);
+    } else {
+      String filename = images[index].path;
+      List<String> parts = filename.split('-');
+
+      if (parts.length > 1) {
+        String firstElementAfterFirstDash = parts[1];
+        listImagesDelete.add(int.parse(firstElementAfterFirstDash));
+      }
     }
     images.removeAt(index);
   }
@@ -85,28 +93,29 @@ class UpdateProductController extends GetxController {
         stock.value != 0 &&
         unitExtent.value != "" &&
         unitExtent.value != "SIN SELECCIONAR") {
-      if (imagesGallery.isNotEmpty) {
-        EasyLoading.show(status: "Guardando...");
-        Map<String, dynamic> dataProduct = {
-          "name": name.value,
-          "description": description.value,
-          "category_id": categoryId.value,
-          "price": price.value,
-          "stock": stock.value,
-          "unitExtent": unitExtent.value
-        };
-        await updateProductRepository.updateProduct(
-            product.id, dataProduct, imagesGallery);
-        EasyLoading.dismiss();
-
-        EasyLoading.showSuccess(
-            "Se ha editado correctamente el producto");
-        Future.delayed(const Duration(seconds: 1), () {
-          Get.offAllNamed("/home_producer");
-        });
-      } else {
-        EasyLoading.showInfo("Debe cargar al menos una imagen");
+      EasyLoading.show(status: "Guardando...");
+      Map<String, dynamic> dataProduct = {
+        "name": name.value,
+        "description": description.value,
+        "category_id": categoryId.value,
+        "price": price.value,
+        "stock": stock.value,
+        "unitExtent": unitExtent.value
+      };
+      await updateProductRepository.updateProduct(
+          product.id, dataProduct, imagesGallery);
+          
+      if (listImagesDelete.isNotEmpty) {
+        await updateProductRepository.deleteImagesProduct(
+            product.id, listImagesDelete);
       }
+      EasyLoading.dismiss();
+
+      EasyLoading.showSuccess("Se ha editado correctamente el producto");
+
+      Future.delayed(const Duration(seconds: 1), () {
+        Get.offAllNamed("/home_producer");
+      });
     } else {
       EasyLoading.showInfo("Debe rellenar todos los campos");
     }
