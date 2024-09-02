@@ -91,7 +91,36 @@ class HomeProducerPage extends GetView<HomeProducerController> {
                             datumProduct: product,
                             deleteButton: true,
                             onPressedDelete: () {
-                              print("ELIMINAR PRODUCTO...");
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text(
+                                      'Confirmar eliminación',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    content: const Text(
+                                        '¿Está seguro que desea eliminar este producto?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text('Cancelar'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text('Eliminar'),
+                                        onPressed: () {
+                                          controller.deleteProduct(product);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             },
                             onPressed: () {
                               controller.goToUpdateProduct(product);

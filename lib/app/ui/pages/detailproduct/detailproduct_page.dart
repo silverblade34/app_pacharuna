@@ -54,9 +54,14 @@ class DetailProductPage extends GetView<DetailProductController> {
                   const SizedBox(
                     width: 5,
                   ),
-                  Text(controller.product.producer.bussinesName.toUpperCase(),
-                      style: const TextStyle(fontSize: 14)),
-                  const Spacer(),
+                  Expanded(
+                    child: Text(
+                        controller.product.producer.bussinesName.toUpperCase(),
+                        style: const TextStyle(fontSize: 14)),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
                   Text(
                     "S/ ${controller.product.price} (${controller.product.unitExtent})",
                     style: const TextStyle(

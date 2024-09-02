@@ -80,12 +80,24 @@ class LoginController extends GetxController {
           route: '/home_customer',
         ),
       );
+      pages.add(
+        MenuOptionsModel(
+          title: 'Compras',
+          route: '/shopping_customer',
+        ),
+      );
       perfil = "Cliente";
     } else if (role == "PRODUCER") {
       pages.add(
         MenuOptionsModel(
           title: 'Home',
           route: '/home_producer',
+        ),
+      );
+      pages.add(
+        MenuOptionsModel(
+          title: 'Ventas',
+          route: '/shopping_producer',
         ),
       );
       perfil = "Agricultor";

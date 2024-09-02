@@ -25,4 +25,20 @@ class HomeProducerProvider extends GetConnect {
       throw Exception("Error de conexión al servidor");
     }
   }
+
+   Future<Response> deleteProduct(int productId) async {
+    try {
+      Map<String, String> headers = {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      };
+      final response = await delete(
+              '$url$versionService$methodFindOneProduct$productId',
+              headers: headers)
+          .timeout(const Duration(milliseconds: 25000));
+      return response;
+    } catch (e) {
+      throw Exception("Error de conexión al servidor");
+    }
+  }
 }

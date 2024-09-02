@@ -90,7 +90,7 @@ class DrawerBodyWidget extends StatelessWidget {
                         ),
                       );
                     } else {
-                      Get.toNamed(menuOptions[index].route);
+                      Get.offAllNamed(menuOptions[index].route);
                     }
                   },
                 ),

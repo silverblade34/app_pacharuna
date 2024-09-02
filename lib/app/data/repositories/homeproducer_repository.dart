@@ -15,4 +15,16 @@ class HomeProducerRepository {
     ProductsProducerDto data = ProductsProducerDto.fromJson(body);
     return data;
   }
+
+   Future<ProductsProducerDto> deleteProduct(int productId) async {
+    final response = await api.deleteProduct(productId);
+    if (response.body == null) {
+      throw Exception("No se recibieron datos en la respuesta");
+    } else if (response.body["status"] == false) {
+      throw Exception(response.body["message"]);
+    }
+    final body = response.body;
+    ProductsProducerDto data = ProductsProducerDto.fromJson(body);
+    return data;
+  }
 }

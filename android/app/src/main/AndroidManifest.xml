@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <application
-        android:label="app_pacharuna"
+        android:label="AgroMarket"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

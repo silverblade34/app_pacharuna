@@ -59,10 +59,6 @@ class UpdateProductProvider {
     try {
       Dio dioClient = Dio();
       dioClient.options.headers['Authorization'] = 'Bearer $token';
-      print("-------------------------------");
-      print(imagesId);
-      print("-------------------------------");
-      print('$url$versionService$methodDeleteImagesProduct$productId');
       final response = await dioClient.delete(
           '$url$versionService$methodDeleteImagesProduct$productId',
           data: {

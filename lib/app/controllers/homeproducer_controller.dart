@@ -3,17 +3,20 @@ import 'package:app_pacharuna/app/data/dto/productsproducer_dto.dart';
 import 'package:app_pacharuna/app/data/repositories/general_repository.dart';
 import 'package:app_pacharuna/app/data/repositories/homeproducer_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+
 class HomeProducerController extends GetxController {
   RxString valueCategoryDropdown = RxString('0');
   TextEditingController searchProduct = TextEditingController();
   HomeProducerRepository homeProducerRepository = HomeProducerRepository();
   GeneralRepository generalRepository = GeneralRepository();
   RxList<DatumProductProducer> products = RxList<DatumProductProducer>([]);
-  RxList<DatumProductProducer> productsFilter = RxList<DatumProductProducer>([]);
+  RxList<DatumProductProducer> productsFilter =
+      RxList<DatumProductProducer>([]);
   RxList<DatumCategory> categories = RxList<DatumCategory>([]);
   RxBool isLoading = true.obs;
-    RxList<DropdownMenuItem<String>> itemsCategories =
+  RxList<DropdownMenuItem<String>> itemsCategories =
       RxList<DropdownMenuItem<String>>(
     [
       const DropdownMenuItem(
@@ -77,5 +80,15 @@ class HomeProducerController extends GetxController {
           searchText.isEmpty || product.name.toLowerCase().contains(searchText);
       return matchesCategory && matchesSearchText;
     }).toList();
+  }
+
+  deleteProduct(DatumProductProducer product) async {
+    try {
+      EasyLoading.show(status: "Cargando...");
+      await homeProducerRepository.deleteProduct(product.id);
+      EasyLoading.dismiss();
+    } catch (e) {
+      EasyLoading.showInfo(e.toString());
+    }
   }
 }
