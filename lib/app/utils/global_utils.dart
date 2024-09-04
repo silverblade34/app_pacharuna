@@ -15,3 +15,4 @@ const String methodCreateProduct = 'products/create';
 const String methodUpdateProduct = 'products/';
 const String methodDeleteImagesProduct = 'images/products/';
 const String methodSalesCreate = 'sales/create';
+const String methodSalesUpdateCustomer = 'sales/payment/';

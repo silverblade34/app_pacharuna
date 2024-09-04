@@ -66,21 +66,25 @@ class CreateProductController extends GetxController {
         unitExtent.value != "" &&
         unitExtent.value != "SIN SELECCIONAR") {
       if (images.isNotEmpty) {
-        EasyLoading.show(status: "Guardando...");
-        Map<String, dynamic> dataProduct = {
-          "name": name.value,
-          "description": description.value,
-          "category_id": categoryId.value,
-          "price": price.value,
-          "stock": stock.value,
-          "unitExtent": unitExtent.value
-        };
-        await createProductRepository.createProduct(dataProduct, images);
+        try {
+          EasyLoading.show(status: "Guardando...");
+          Map<String, dynamic> dataProduct = {
+            "name": name.value,
+            "description": description.value,
+            "category_id": categoryId.value,
+            "price": price.value,
+            "stock": stock.value,
+            "unitExtent": unitExtent.value
+          };
+          await createProductRepository.createProduct(dataProduct, images);
 
-        EasyLoading.showSuccess("Se ha creado correctamente el producto");
-        Future.delayed(const Duration(seconds: 1), () {
-          Get.offAllNamed("/home_producer");
-        });
+          EasyLoading.showSuccess("Se ha creado correctamente el producto");
+          Future.delayed(const Duration(seconds: 1), () {
+            Get.offAllNamed("/home_producer");
+          });
+        } catch (e) {
+          EasyLoading.showInfo(e.toString());
+        }
       } else {
         EasyLoading.showInfo("Debe cargar al menos una imagen");
       }

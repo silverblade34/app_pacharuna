@@ -27,14 +27,14 @@ class LoginPage extends GetView<LoginController> {
                       height: 10,
                     ),
                     Image.asset(
-                      'assets/images/login_pacharuna.png',
-                      width: 200,
+                      'assets/images/campesino_login.png',
+                      width: 150,
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     const Text(
-                      "Hola de nuevo!",
+                      "Hola de nuevo a WAYU!",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 24,

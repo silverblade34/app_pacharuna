@@ -13,6 +13,7 @@ class DrawerBodyWidget extends StatelessWidget {
     final box = GetStorage();
     double screenHeight = MediaQuery.of(context).size.height;
     dynamic storedData = box.read("menuOptions");
+    String? selectedRoute = box.read("selectedRoute");
     List<MenuOptionsModel> menuOptions = [];
 
     if (storedData is List<MenuOptionsModel>) {
@@ -25,6 +26,7 @@ class DrawerBodyWidget extends StatelessWidget {
               ))
           .toList();
     }
+    
     return Container(
       height: screenHeight - 110,
       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -34,8 +36,11 @@ class DrawerBodyWidget extends StatelessWidget {
             menuOptions.length,
             (index) {
               final isLastItem = index == menuOptions.length - 1;
+              final isSelected = menuOptions[index].route == selectedRoute;
+
               return Container(
                 decoration: BoxDecoration(
+                  color: isSelected ? const Color.fromARGB(255, 233, 233, 233) : Colors.transparent,
                   border: Border(
                     bottom: isLastItem
                         ? BorderSide.none
@@ -45,9 +50,13 @@ class DrawerBodyWidget extends StatelessWidget {
                 child: ListTile(
                   title: Text(
                     menuOptions[index].title,
-                    style: const TextStyle(fontSize: 16),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: isSelected ? GlobalColors.primary : Colors.black,
+                    ),
                   ),
                   onTap: () {
+                    box.write("selectedRoute", menuOptions[index].route);
                     Navigator.pop(context);
                     if (menuOptions[index].route == "/logout") {
                       Get.dialog(
