@@ -12,6 +12,20 @@ class GeneralProvider extends GetConnect {
     }
   }
 
+  Future<Response> createCategories(String name) async {
+    try {
+      Map<String, dynamic> payload = {
+        'name': name,
+      };
+      final response =
+          await post('$url$versionService$methodCreateCategories', payload)
+              .timeout(const Duration(milliseconds: 25000));
+      return response;
+    } catch (e) {
+      throw Exception("Error de conexión al servidor");
+    }
+  }
+
   Future<Response> getUnitExtends() async {
     try {
       final response = await get('$url$versionService$methodFindAllUnitExtends')

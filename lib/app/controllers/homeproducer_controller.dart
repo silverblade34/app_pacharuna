@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_pacharuna/app/data/dto/categories_dto.dart';
 import 'package:app_pacharuna/app/data/dto/productsproducer_dto.dart';
 import 'package:app_pacharuna/app/data/repositories/general_repository.dart';
@@ -68,6 +70,8 @@ class HomeProducerController extends GetxController {
   }
 
   goToUpdateProduct(DatumProductProducer product) async {
+    print("-----------------------------");
+    print(jsonEncode(product));
     Get.offAllNamed("/update_product", arguments: product);
   }
 

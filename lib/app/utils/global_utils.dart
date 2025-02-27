@@ -12,6 +12,7 @@ const String methodFindAllCategories = 'categories/list';
 const String methodFindAllUnitExtends = 'extend/list';
 const String methodFindAllSales = 'sales/list';
 const String methodCreateProduct = 'products/create';
+const String methodCreateCategories = 'categories/create';
 const String methodUpdateProduct = 'products/';
 const String methodDeleteImagesProduct = 'images/products/';
 const String methodSalesCreate = 'sales/create';

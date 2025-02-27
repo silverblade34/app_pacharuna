@@ -42,25 +42,6 @@ class HomeProducerPage extends GetView<HomeProducerController> {
                       },
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Obx(
-                    () => Expanded(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: controller.valueCategoryDropdown.value,
-                        underline: Container(color: Colors.transparent),
-                        items: controller.itemsCategories,
-                        onChanged: (String? newValue) async {
-                          if (newValue != null) {
-                            controller.valueCategoryDropdown.value = newValue;
-                            controller.filterProducts();
-                          }
-                        },
-                      ),
-                    ),
-                  ),
                 ],
               ),
               const SizedBox(

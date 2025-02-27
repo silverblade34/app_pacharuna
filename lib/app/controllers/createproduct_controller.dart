@@ -9,8 +9,8 @@ import 'package:image_picker/image_picker.dart';
 
 class CreateProductController extends GetxController {
   GeneralRepository generalRepository = GeneralRepository();
-  RxList<DatumCategory> categories = RxList<DatumCategory>([]);
   CreateProductRepository createProductRepository = CreateProductRepository();
+  RxList<DatumCategory> categories = RxList<DatumCategory>([]);
 
   var name = ''.obs;
   var description = ''.obs;
@@ -31,6 +31,15 @@ class CreateProductController extends GetxController {
   getCategories() async {
     final validate = await generalRepository.getCategories();
     categories.value = validate.data;
+  }
+
+  createCategories(String name) async {
+    try {
+      await generalRepository.createCategories(name);
+      await getCategories();
+    } catch (e) {
+      EasyLoading.showInfo(e.toString());
+    }
   }
 
   Future<void> addImage() async {
@@ -71,7 +80,7 @@ class CreateProductController extends GetxController {
           Map<String, dynamic> dataProduct = {
             "name": name.value,
             "description": description.value,
-            "category_id": categoryId.value,
+            "category_id": 1,
             "price": price.value,
             "stock": stock.value,
             "unitExtent": unitExtent.value

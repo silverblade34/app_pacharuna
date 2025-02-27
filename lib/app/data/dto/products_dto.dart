@@ -67,7 +67,7 @@ class DatumProduct {
         price: json["price"],
         stock: json["stock"],
         unitExtent: json["unitExtent"],
-        unitExtentId: json["unitExtentId"],
+        unitExtentId: json["unitExtentId"] ?? 0,
         producer: Producer.fromJson(json["producer"]),
         images: List<String>.from(json["images"].map((x) => x)),
       );

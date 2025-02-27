@@ -15,4 +15,14 @@ class GeneralRepository {
     CategoriesDto data = CategoriesDto.fromJson(body);
     return data;
   }
+
+   Future<void> createCategories(String name) async {
+    final response = await api.createCategories(name);
+    if (response.body == null) {
+      throw Exception("No se recibieron datos en la respuesta");
+    } else if (response.body["status"] == false) {
+      throw Exception(response.body["message"]);
+    }
+    return;
+  }
 }

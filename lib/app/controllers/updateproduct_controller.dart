@@ -12,12 +12,11 @@ import 'package:image_picker/image_picker.dart';
 class UpdateProductController extends GetxController {
   DatumProductProducer product = Get.arguments;
   GeneralRepository generalRepository = GeneralRepository();
-  RxList<DatumCategory> categories = RxList<DatumCategory>([]);
   UpdateProductRepository updateProductRepository = UpdateProductRepository();
+  RxList<DatumCategory> categories = RxList<DatumCategory>([]);
 
   var name = ''.obs;
   var description = ''.obs;
-  var categoryId = 0.obs;
   var price = ''.obs;
   var stock = 0.obs;
   var unitExtent = ''.obs;
@@ -31,7 +30,6 @@ class UpdateProductController extends GetxController {
     EasyLoading.show(status: "Cargando...");
     name.value = product.name;
     description.value = product.description;
-    categoryId.value = product.categoryId;
     price.value = product.price;
     stock.value = product.stock;
     unitExtent.value = product.unitExtent;
@@ -45,6 +43,15 @@ class UpdateProductController extends GetxController {
   getCategories() async {
     final validate = await generalRepository.getCategories();
     categories.value = validate.data;
+  }
+
+  createCategories(String name) async {
+    try {
+      await generalRepository.createCategories(name);
+      await getCategories();
+    } catch (e) {
+      EasyLoading.showInfo(e.toString());
+    }
   }
 
   Future<void> addImage() async {
@@ -88,7 +95,6 @@ class UpdateProductController extends GetxController {
   void updateProduct() async {
     if (name.value != "" &&
         description.value != "" &&
-        categoryId.value != 0 &&
         price.value != "" &&
         stock.value != 0 &&
         unitExtent.value != "" &&
@@ -97,14 +103,14 @@ class UpdateProductController extends GetxController {
       Map<String, dynamic> dataProduct = {
         "name": name.value,
         "description": description.value,
-        "category_id": categoryId.value,
+        "category_id": 1,
         "price": price.value,
         "stock": stock.value,
         "unitExtent": unitExtent.value
       };
       await updateProductRepository.updateProduct(
           product.id, dataProduct, imagesGallery);
-          
+
       if (listImagesDelete.isNotEmpty) {
         await updateProductRepository.deleteImagesProduct(
             product.id, listImagesDelete);

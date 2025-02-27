@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:app_pacharuna/app/controllers/updateproduct_controller.dart';
-import 'package:app_pacharuna/app/data/dto/categories_dto.dart';
 import 'package:app_pacharuna/app/utils/global_colors.dart';
 import 'package:app_pacharuna/app/utils/global_utils.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +33,91 @@ class UpdateProductPage extends GetView<UpdateProductController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextField(
-                  decoration: const InputDecoration(labelText: 'Nombre'),
-                  controller:
-                      TextEditingController(text: controller.name.value),
-                  onChanged: (value) => controller.name.value = value,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Obx(
+                        () {
+                          final List<String> categoryNames = [
+                            'SIN SELECCIONAR',
+                            ...controller.categories
+                                .map((category) => category.name.toUpperCase()),
+                          ];
+
+                          final String dropdownValue = categoryNames
+                                  .contains(controller.name.value.toUpperCase())
+                              ? controller.name.value.toUpperCase()
+                              : 'SIN SELECCIONAR';
+
+                          return DropdownButtonFormField<String>(
+                            decoration: const InputDecoration(
+                              labelText: 'Selecciona un tipo de palta',
+                            ),
+                            value: dropdownValue,
+                            onChanged: (String? newValue) {
+                              if (newValue != null) {
+                                controller.name.value = newValue.toUpperCase();
+                              }
+                            },
+                            items: categoryNames.map((String name) {
+                              return DropdownMenuItem<String>(
+                                value: name,
+                                child: Text(name),
+                              );
+                            }).toList(),
+                          );
+                        },
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 203, 168, 62),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.add, color: Colors.white),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              final TextEditingController
+                                  newCategoryController =
+                                  TextEditingController();
+
+                              return AlertDialog(
+                                title: const Text(
+                                  'Agregar nuevo tipo de palta',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                content: TextField(
+                                  controller: newCategoryController,
+                                  decoration: const InputDecoration(
+                                      labelText: 'Nombre'),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('Cancelar'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      if (newCategoryController
+                                          .text.isNotEmpty) {
+                                        controller.createCategories(
+                                            newCategoryController.text);
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                    child: const Text('Agregar'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -49,41 +128,26 @@ class UpdateProductPage extends GetView<UpdateProductController> {
                   maxLines: 3,
                 ),
                 const SizedBox(height: 16),
-                Obx(() => DropdownButtonFormField<int>(
-                      decoration: const InputDecoration(labelText: 'Categoría'),
-                      value: controller.categoryId.value,
-                      onChanged: (int? newValue) {
-                        if (newValue != null) {
-                          controller.categoryId.value = newValue;
-                        }
-                      },
-                      items:
-                          controller.categories.map((DatumCategory category) {
-                        return DropdownMenuItem<int>(
-                          value: category.id,
-                          child: Text(category.name),
-                        );
-                      }).toList(),
-                    )),
-                const SizedBox(height: 16),
-                Obx(() => DropdownButtonFormField<String>(
-                      decoration: const InputDecoration(labelText: 'Unidad'),
-                      value: controller.unitExtent.value.isEmpty
-                          ? 'SIN SELECCIONAR'
-                          : controller.unitExtent.value,
-                      onChanged: (String? newValue) {
-                        if (newValue != null) {
-                          controller.unitExtent.value = newValue;
-                        }
-                      },
-                      items: <String>['SIN SELECCIONAR', 'Kg', 'Tn']
-                          .map((String unit) {
-                        return DropdownMenuItem<String>(
-                          value: unit,
-                          child: Text(unit),
-                        );
-                      }).toList(),
-                    )),
+                Obx(
+                  () => DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(labelText: 'Unidad'),
+                    value: controller.unitExtent.value.toUpperCase().isEmpty
+                        ? 'SIN SELECCIONAR'
+                        : controller.unitExtent.value.toUpperCase(),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        controller.unitExtent.value = newValue.toUpperCase();
+                      }
+                    },
+                    items: <String>['SIN SELECCIONAR', 'Kg', 'Tn']
+                        .map((String unit) {
+                      return DropdownMenuItem<String>(
+                        value: unit.toUpperCase(),
+                        child: Text(unit.toUpperCase()),
+                      );
+                    }).toList(),
+                  ),
+                ),
                 const SizedBox(height: 16),
                 TextField(
                   decoration: const InputDecoration(labelText: 'Precio'),

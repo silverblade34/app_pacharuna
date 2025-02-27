@@ -1,5 +1,4 @@
 import 'package:app_pacharuna/app/controllers/createproduct_controller.dart';
-import 'package:app_pacharuna/app/data/dto/categories_dto.dart';
 import 'package:app_pacharuna/app/utils/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,9 +30,79 @@ class CreateProductPage extends GetView<CreateProductController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextField(
-                  decoration: const InputDecoration(labelText: 'Nombre'),
-                  onChanged: (value) => controller.name.value = value,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Obx(
+                        () => DropdownButtonFormField<String>(
+                          decoration: const InputDecoration(
+                              labelText: 'Selecciona un tipo de palta'),
+                          value: controller.name.value.isNotEmpty
+                              ? controller.name.value
+                              : null,
+                          items: controller.categories.map((category) {
+                            return DropdownMenuItem(
+                              value: category.name,
+                              child: Text(category.name),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            if (value != null) {
+                              controller.name.value = value;
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 203, 168, 62),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.add, color: Colors.white),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              final TextEditingController
+                                  newCategoryController =
+                                  TextEditingController();
+
+                              return AlertDialog(
+                                title: const Text(
+                                  'Agregar nuevo tipo de palta',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                content: TextField(
+                                  controller: newCategoryController,
+                                  decoration: const InputDecoration(
+                                      labelText: 'Nombre'),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('Cancelar'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      if (newCategoryController
+                                          .text.isNotEmpty) {
+                                        controller.createCategories(
+                                            newCategoryController.text);
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                    child: const Text('Agregar'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -41,28 +110,6 @@ class CreateProductPage extends GetView<CreateProductController> {
                   onChanged: (value) => controller.description.value = value,
                   maxLines: 3,
                 ),
-                const SizedBox(height: 16),
-                Obx(() => DropdownButtonFormField<int>(
-                      decoration: const InputDecoration(labelText: 'Categoría'),
-                      value: controller.categoryId.value,
-                      onChanged: (int? newValue) {
-                        if (newValue != null) {
-                          controller.categoryId.value = newValue;
-                        }
-                      },
-                      items: [
-                        const DropdownMenuItem<int>(
-                          value: 0,
-                          child: Text('SIN SELECCIONAR'),
-                        ),
-                        ...controller.categories.map((DatumCategory category) {
-                          return DropdownMenuItem<int>(
-                            value: category.id,
-                            child: Text(category.name),
-                          );
-                        }),
-                      ],
-                    )),
                 const SizedBox(height: 16),
                 Obx(() => DropdownButtonFormField<String>(
                       decoration: const InputDecoration(labelText: 'Unidad'),
