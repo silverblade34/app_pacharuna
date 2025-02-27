@@ -86,6 +86,11 @@ class RegisterCustomerPage extends GetView<RegisterCustomerController> {
                           height: 10,
                         ),
                         TextFieldLabel(
+                            label: "Dirección",
+                            hinText: "Ingrese su dirección",
+                            icon: const Icon(Icons.directions),
+                            controller: controller.direction),
+                        TextFieldLabel(
                             label: "Telefono",
                             hinText: "Ingrese su telefono",
                             icon: const Icon(Icons.phone),

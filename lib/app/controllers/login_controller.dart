@@ -32,6 +32,7 @@ class LoginController extends GetxController {
         box.write('authTokenMobile', authToken);
         box.write('authToken', validate.data.token);
         box.write('name', validate.data.username);
+        box.write('direction', validate.data.direction);
         box.write('role', role);
         box.write('token', validate.data.token);
         EasyLoading.dismiss();

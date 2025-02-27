@@ -17,6 +17,8 @@ class CreateProductController extends GetxController {
   var categoryId = 0.obs;
   var price = ''.obs;
   var stock = 0.obs;
+  var bulkPrice = 0.0.obs;
+  var bulkQuantity = 0.obs;
   var unitExtent = ''.obs;
   var images = <File>[].obs;
 
@@ -74,7 +76,9 @@ class CreateProductController extends GetxController {
             "category_id": categoryId.value,
             "price": price.value,
             "stock": stock.value,
-            "unitExtent": unitExtent.value
+            "unitExtent": unitExtent.value,
+            "bulk_price": bulkPrice.value,
+            "bulk_quantity": bulkQuantity.value
           };
           await createProductRepository.createProduct(dataProduct, images);
 

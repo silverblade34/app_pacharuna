@@ -20,14 +20,6 @@ class DetailProductPage extends GetView<DetailProductController> {
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        // actions: [
-        //   IconButton(
-        //       icon: const Icon(
-        //         Icons.shopping_cart_outlined,
-        //         color: Colors.white,
-        //       ),
-        //       onPressed: () {}),
-        // ],
         backgroundColor: GlobalColors.primary,
       ),
       body: SingleChildScrollView(
@@ -87,86 +79,101 @@ class DetailProductPage extends GetView<DetailProductController> {
                 ],
               ),
               const SizedBox(height: 20),
+              const Text(
+                "Calcular costo",
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
               Obx(
                 () => Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (controller.amountProduct.value != 0) {
-                          controller.amountProduct.value =
-                              controller.amountProduct.value - 1;
-                        }
-                      },
-                      child: Container(
-                        height: 45,
-                        width: 45,
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: GlobalColors.primary),
-                        child: const Icon(
-                          Icons.remove,
-                          color: Colors.white,
+                    Column(
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          child: TextField(
+                            textAlign: TextAlign.center,
+                            controller: controller.amountProduct,
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              controller.selectButton(controller.selectedButton.value);
+                            },
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 40,
-                      child: Text(
-                        controller.amountProduct.value.toString(),
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: GlobalColors.greyHard),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        controller.amountProduct.value =
-                            controller.amountProduct.value + 1;
-                      },
-                      child: Container(
-                        height: 45,
-                        width: 45,
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: GlobalColors.primary),
-                        child: const Icon(
-                          Icons.add,
-                          color: Colors.white,
+                        const SizedBox(
+                          height: 5,
                         ),
-                      ),
+                        const Text("Cantidad")
+                      ],
                     ),
                     const SizedBox(
                       width: 10,
                     ),
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          controller.createSale();
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: GlobalColors.primary,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Text(
-                            'Comprar',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                    const Text(
+                      "x",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          controller.priceSelected.value.toString(),
+                          style: const TextStyle(fontSize: 18),
                         ),
-                      ),
-                    )
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        const Text("Precio unitario")
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Text(
+                      "=",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      controller.totalPrice.value.toString(),
+                      style: const TextStyle(fontSize: 18),
+                    ),
                   ],
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        controller.createSale();
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: GlobalColors.primary,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Text(
+                          'Comprar',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),

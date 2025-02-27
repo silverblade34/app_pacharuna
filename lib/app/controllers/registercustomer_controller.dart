@@ -9,6 +9,7 @@ class RegisterCustomerController extends GetxController {
   TextEditingController lastName = TextEditingController();
   TextEditingController bussinesName = TextEditingController();
   TextEditingController document = TextEditingController();
+  TextEditingController direction = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -31,6 +32,7 @@ class RegisterCustomerController extends GetxController {
           "password": password.text,
           "firstName": firstName.text,
           "lastName": lastName.text,
+          "direction": direction.text,
           "bussinesName": bussinesName.text,
           "phone": phone.text,
           "document": document.text

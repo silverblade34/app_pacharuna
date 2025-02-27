@@ -43,6 +43,8 @@ class DatumProduct {
   int stock;
   String unitExtent;
   int unitExtentId;
+  dynamic bulkPrice;
+  dynamic bulkQuantity;
   Producer producer;
   List<String> images;
 
@@ -55,6 +57,8 @@ class DatumProduct {
     required this.stock,
     required this.unitExtentId,
     required this.unitExtent,
+    required this.bulkPrice,
+    required this.bulkQuantity,
     required this.producer,
     required this.images,
   });
@@ -68,6 +72,8 @@ class DatumProduct {
         stock: json["stock"],
         unitExtent: json["unitExtent"],
         unitExtentId: json["unitExtentId"],
+        bulkPrice: json["bulk_price"],
+        bulkQuantity: json["bulk_quantity"],
         producer: Producer.fromJson(json["producer"]),
         images: List<String>.from(json["images"].map((x) => x)),
       );
@@ -81,6 +87,8 @@ class DatumProduct {
         "stock": stock,
         "unitExtent": unitExtent,
         "unitExtentId": unitExtentId,
+        "bulk_price": bulkPrice,
+        "bulk_quantity": bulkQuantity,
         "producer": producer.toJson(),
         "images": List<dynamic>.from(images.map((x) => x)),
       };

@@ -61,12 +61,12 @@ class ShoppingCustomerPage extends GetView<ShoppingCustomerController> {
                   ),
                   child: ListTile(
                     leading: Image.network(
-                      '$url$versionService$methodGetImages${item.productImagePath.toString()}',
+                      '$url$versionService$methodGetImages${item.product.images[0]}',
                       width: 50,
                       height: 50,
                       fit: BoxFit.cover,
                     ),
-                    title: Text(item.productName),
+                    title: Text(item.product.name),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -94,7 +94,7 @@ class ShoppingCustomerPage extends GetView<ShoppingCustomerController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('S/ ${item.unitPrice}'),
-                        Text('${item.amount} ${item.unitExtend}'),
+                        Text('${item.amount} ${item.unit.name}'),
                       ],
                     ),
                     onTap: () {

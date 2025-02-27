@@ -1,4 +1,5 @@
 import 'package:app_pacharuna/app/controllers/shoppingdetailcustomer_controller.dart';
+import 'package:app_pacharuna/app/ui/widgets/fullscreen_image.dart';
 import 'package:app_pacharuna/app/utils/global_colors.dart';
 import 'package:app_pacharuna/app/utils/global_utils.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -52,7 +53,7 @@ class ShoppingDetailCustomerPage
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
-                      '$url$versionService$methodGetImages${controller.detailShoppingDto.productImagePath.toString()}',
+                      '$url$versionService$methodGetImages${controller.detailShoppingDto.product.images[0]}',
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -65,12 +66,12 @@ class ShoppingDetailCustomerPage
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Productor: ${controller.detailShoppingDto.producerName}',
+                      'Productor: ${controller.detailShoppingDto.product.producer.name}',
                       style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Producto: ${controller.detailShoppingDto.productName}',
+                      'Producto: ${controller.detailShoppingDto.product.name}',
                       style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 10),
@@ -98,7 +99,7 @@ class ShoppingDetailCustomerPage
                           style: TextStyle(fontSize: 16),
                         ),
                         Text(
-                          'S/ ${controller.detailShoppingDto.unitPrice} - ${controller.detailShoppingDto.unitExtend}',
+                          'S/ ${controller.detailShoppingDto.unitPrice} - ${controller.detailShoppingDto.unit.name}',
                           style: const TextStyle(fontSize: 16),
                         )
                       ],
@@ -112,7 +113,7 @@ class ShoppingDetailCustomerPage
                           style: TextStyle(fontSize: 16),
                         ),
                         Text(
-                          '${controller.detailShoppingDto.amount} ${controller.detailShoppingDto.unitExtend}',
+                          '${controller.detailShoppingDto.amount} ${controller.detailShoppingDto.unit.name}',
                           style: const TextStyle(fontSize: 16),
                         )
                       ],
@@ -183,18 +184,34 @@ class ShoppingDetailCustomerPage
                               children: controller
                                   .detailShoppingDto.vouchers.pay
                                   .map((image) {
-                                return Stack(
-                                  children: [
-                                    Image.network(
-                                      '$url$versionService$methodGetImages$image',
-                                      width: 120,
-                                      height: 120,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ],
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => FullScreenImage(
+                                          image: Image.network(
+                                            '$url$versionService$methodGetImages$image',
+                                            fit: BoxFit
+                                                .contain, // Usar contain para la vista completa
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Stack(
+                                    children: [
+                                      Image.network(
+                                        '$url$versionService$methodGetImages$image',
+                                        width: 120,
+                                        height: 120,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ],
+                                  ),
                                 );
                               }).toList(),
-                            )
+                            ),
                           ] else ...[
                             Obx(() {
                               if (controller.imagesPay.isEmpty) {
@@ -274,6 +291,35 @@ class ShoppingDetailCustomerPage
                                 );
                               }
                             })
+                          ],
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          if (controller
+                              .detailShoppingDto.vouchers.pay.isEmpty) ...[
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  controller.updateShopping();
+                                },
+                                style: ButtonStyle(
+                                  padding: const WidgetStatePropertyAll(
+                                      EdgeInsets.all(5)),
+                                  backgroundColor: WidgetStatePropertyAll(
+                                      GlobalColors.terciary),
+                                  shape: WidgetStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                ),
+                                child: const Text(
+                                  "Actualizar compra",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
                           ]
                         ],
                       )
@@ -310,34 +356,6 @@ class ShoppingDetailCustomerPage
                         ],
                       ),
                     ],
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    if (controller.detailShoppingDto.status == "activo") ...[
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            controller.updateShopping();
-                          },
-                          style: ButtonStyle(
-                            padding:
-                                const WidgetStatePropertyAll(EdgeInsets.all(5)),
-                            backgroundColor:
-                                WidgetStatePropertyAll(GlobalColors.terciary),
-                            shape: WidgetStatePropertyAll(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                          ),
-                          child: const Text(
-                            "Actualizar compra",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ]
                   ],
                 ),
               ),

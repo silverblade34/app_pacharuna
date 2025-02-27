@@ -90,10 +90,26 @@ class CreateProductPage extends GetView<CreateProductController> {
                 ),
                 const SizedBox(height: 16),
                 TextField(
+                  decoration:
+                      const InputDecoration(labelText: 'Cantidad por mayor'),
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) => controller.bulkQuantity.value =
+                      int.parse(value.isEmpty ? "0" : value),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  decoration:
+                      const InputDecoration(labelText: 'Precio por mayor'),
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) =>
+                      controller.bulkPrice.value = double.parse(value.isEmpty ? "0" : value),
+                ),
+                const SizedBox(height: 16),
+                TextField(
                   decoration: const InputDecoration(labelText: 'Stock'),
                   keyboardType: TextInputType.number,
                   onChanged: (value) =>
-                      controller.stock.value = int.parse(value),
+                      controller.stock.value = int.parse(value.isEmpty ? "0" : value),
                 ),
                 const SizedBox(height: 16),
                 Row(

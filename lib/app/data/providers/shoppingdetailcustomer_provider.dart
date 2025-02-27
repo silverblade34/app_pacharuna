@@ -49,4 +49,42 @@ class ShoppingdetailcustomerProvider {
       throw Exception("Error de conexión al servidor: $e");
     }
   }
+
+   Future<Response> updatePaySaleProducer(
+    int saleId,
+    List<File> images,
+  ) async {
+    try {
+      Dio dioClient = Dio();
+      dioClient.options.headers['Authorization'] = 'Bearer $token';
+
+       final formData = FormData.fromMap(
+        {
+          'voucher': [
+            for (var image in images)
+              await MultipartFile.fromFile(
+                image.path,
+                filename: path.basename(image.path),
+                contentType: DioMediaType('image', 'jpeg'),
+              ),
+          ],
+          'status': 'culminado'
+        },
+      );
+
+      final response = await dioClient
+          .patch(
+            '$url$versionService$methodUpdateSales$saleId',
+            data: formData,
+            options: Options(
+              contentType: 'multipart/form-data',
+            ),
+          )
+          .timeout(const Duration(milliseconds: 25000));
+
+      return response;
+    } catch (e) {
+      throw Exception("Error de conexión al servidor: $e");
+    }
+  }
 }
